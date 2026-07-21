@@ -8,26 +8,34 @@ private:
 	int imag;
 public:
 	CComplex(){}
-	CComplex(int real):real(real){}
+	CComplex(int real):real(real),imag(0){}
 	CComplex(int real,int imag):real(real),imag(imag){}
 
-	void printf() {
+	void print() {
 		cout << real << "+" << imag << "i" << endl;
 	}
-	CComplex operator+(const CComplex& c);
+	// +重载 成员函数
+	//CComplex operator+(const CComplex& );
+	friend CComplex operator+(const CComplex& , CComplex& );
 };
-CComplex CComplex::operator+(const CComplex& c) {
-	return CComplex(this->real + c.real,this->imag + c.imag);
+//CComplex CComplex::operator+(const CComplex& c) {
+//	return CComplex(this->real + c.real,this->imag + c.imag);
+//}
+
+//+重载 全局作用域下友元重载函数
+CComplex operator+(const CComplex& c1, CComplex& c2) {
+	return CComplex(c1.real + c2.real, c1.imag + c2.imag);
 }
+
+
 
 int main() {
 	CComplex c1(10, 20),c2(20,30);
 
 	//operator+
 	CComplex c3 = c1 + c2;
-	CComplex c4 = c1.operator+(c2);
-	c3.printf();
-	c4.printf();
-
-
+	//CComplex c4 = c1.operator+(c2);
+	CComplex c4 = 10 + c2;
+	c3.print();
+	c4.print();
 }
