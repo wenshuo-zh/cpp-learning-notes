@@ -10,7 +10,7 @@ public:
 	CComplex(int real):real(real),imag(0){}
 	CComplex(int real,int imag):real(real),imag(imag){}
 
-	void const print() {
+	void  print()const {
 		cout << real << "+" << imag << "i" << endl;
 	}
 
@@ -24,6 +24,19 @@ public:
 		this->imag = this->imag + c.imag;
 		return *this;
 	}
+	//++前加加重载
+	CComplex& operator++() {
+		this->real++;
+		this->imag++;
+		return *this;
+	}
+	//++后加加重载
+	CComplex operator++(int) {
+		CComplex temp=*this;
+		this->real++;
+		this->imag++;
+		return temp;
+	}
 };
 
 //CComplex CComplex::operator+(const CComplex& c) {
@@ -34,6 +47,7 @@ public:
 CComplex operator+(const CComplex& c1,  const CComplex& c2) {
 	return CComplex(c1.real + c2.real, c1.imag + c2.imag);
 }
+
 
 
 
@@ -50,4 +64,9 @@ int main() {
 
 	c3 += c1;
 	c3.print();
+
+	(++c3).print();
+	c3.print();
+	(c4++).print();
+	c4.print();
 }
