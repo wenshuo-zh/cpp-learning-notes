@@ -6,6 +6,7 @@ class CComplex {
 private:
 	int real;
 	int imag;
+	//int* p = new int();
 public:
 	CComplex(int real):real(real),imag(0){}
 	CComplex(int real,int imag):real(real),imag(imag){}
@@ -31,11 +32,25 @@ public:
 		return *this;
 	}
 	//++后加加重载
-	CComplex operator++(int) {
+	CComplex operator++(int) {                   //为了区分前加加、后加加，在后加加传参数int
 		CComplex temp=*this;
 		this->real++;
 		this->imag++;
 		return temp;
+	}
+	friend ostream& operator<<(ostream& , const CComplex& );
+	friend istream& operator>>(istream&,  CComplex&);
+
+	//=赋值运算符重载                       注意自赋值，深拷贝
+	CComplex& operator=(const CComplex& c) {
+		if (this == &c) {
+			//delete p;
+			return *this;
+		}
+		this->real = c.real;
+		this->imag = c.imag;
+		//this->p = new int(*c.p);
+		return *this;
 	}
 };
 
@@ -46,6 +61,16 @@ public:
 //+重载 全局作用域下友元重载函数
 CComplex operator+(const CComplex& c1,  const CComplex& c2) {
 	return CComplex(c1.real + c2.real, c1.imag + c2.imag);
+}
+//<<与>>运算符重载
+ostream& operator<<(ostream& out, const CComplex& c) {
+	out << c.real <<"+" << c.imag<<"i" ;
+	return out;
+}
+istream& operator>>(istream& in,  CComplex& c) {
+	in >> c.real >> c.imag;
+	return in;
+
 }
 
 
@@ -62,11 +87,21 @@ int main() {
 	c3.print();
 	c4.print();
 
+	//operator+=
 	c3 += c1;
 	c3.print();
 
-	(++c3).print();
+	//operator++
+	(++++c3).print();
 	c3.print();
 	(c4++).print();
 	c4.print();
+	
+	//operator>>，operator<<
+	cin >>c3>> c4;
+	cout << c3 << " " << c4 << endl;
+
+	//operator=
+	c2 = c1;
+	cout << c2 << endl;
 }
